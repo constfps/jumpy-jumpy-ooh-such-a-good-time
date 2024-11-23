@@ -567,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.37, y: 20.72, z: -10}
+  m_LocalPosition: {x: 3.37, y: 7.0099993, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1344,11 +1344,11 @@ GameObject:
   - component: {fileID: 1271269408}
   - component: {fileID: 1271269407}
   - component: {fileID: 1271269406}
-  - component: {fileID: 1271269413}
   - component: {fileID: 1271269409}
   - component: {fileID: 1271269410}
   - component: {fileID: 1271269412}
   - component: {fileID: 1271269411}
+  - component: {fileID: 1271269413}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1437,7 +1437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271269404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.37, y: 19.64, z: 0}
+  m_LocalPosition: {x: 3.37, y: 5.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1456,14 +1456,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f397329410f8543b0891025b6d346e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walljumpDir: 0
-  walljumping: 0
   hasJump: 0
   canMove: 1
   jumpMultiplier: 15
   movementMultiplier: 5
-  wallslideSpeed: -2
-  walljumpHorizMultiplier: 5
+  isWalled: 0
+  wallslideSpeed: 2
 --- !u!114 &1271269410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1809,7 +1807,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584019388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.37, y: 20.72, z: -10}
+  m_LocalPosition: {x: 3.37, y: 7.0099993, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

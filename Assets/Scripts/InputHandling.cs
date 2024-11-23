@@ -12,10 +12,16 @@ public class InputHandling : MonoBehaviour
     void Update()
     {
         movement.MoveDirection(Input.GetAxisRaw("Horizontal"));
+        movement.wallslideHandler();
 
         if (Input.GetButtonDown("Jump"))
         {
             movement.Jump();
         }
+
+        //if (movement.isWalled)
+        //{
+        //    movement.rb.velocity = Vector2.left * 15f;
+        //}
     }
 }

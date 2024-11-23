@@ -33,10 +33,15 @@ public class AnimationHandler : MonoBehaviour
 
         if (facingRight && Input.GetAxisRaw("Horizontal") < 0f || !facingRight && Input.GetAxisRaw("Horizontal") > 0f)
         {
-            facingRight = !facingRight;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1f;
-            transform.localScale = scale;
+            flip();
         }
+    }
+
+    public void flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1f;
+        transform.localScale = scale;
     }
 }
