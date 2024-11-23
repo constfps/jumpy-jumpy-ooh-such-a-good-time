@@ -3,10 +3,12 @@ using UnityEngine;
 public class InputHandling : MonoBehaviour
 {
     private Movement movement;
+    private GunHandler gunHandler;
 
     private void Start()
     {
         movement = GetComponent<Movement>();
+        gunHandler = transform.parent.GetChild(1).GetComponent<GunHandler>();
     }
 
     void Update()
@@ -19,9 +21,9 @@ public class InputHandling : MonoBehaviour
             movement.Jump();
         }
 
-        //if (movement.isWalled)
-        //{
-        //    movement.rb.velocity = Vector2.left * 15f;
-        //}
+        if (Input.GetButtonDown("Fire1"))
+        {
+            gunHandler.Fire();
+        }
     }
 }

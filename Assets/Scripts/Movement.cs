@@ -24,7 +24,6 @@ public class Movement : MonoBehaviour
         if (hasJump && !isWalled)
         {
             rb.velocity = Vector2.up * jumpMultiplier;
-            hasJump = false;
         }
         else if (hasJump && isWalled)
         {
@@ -70,6 +69,11 @@ public class Movement : MonoBehaviour
         if (isWalled && collision.collider.tag == "Walljump")
         {
             isWalled = false;
+        }
+
+        if (collision.collider.tag == "Ground")
+        {
+            hasJump = false;
         }
     }
 
