@@ -4,16 +4,12 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private string walljumpDir = "left";
 
-    public bool walljumping = false;
     public bool hasJump = false;
     public bool canMove = true;
+
     public float jumpMultiplier = 5f;
     public float movementMultiplier = 5f;
-    public float walljumpGrav = 1f;
-    public float normalGrav = 3f;
-    public float walljumpHorizMultiplier = 5f;
 
     private void OnEnable()
     {
@@ -36,60 +32,19 @@ public class Movement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Vector2 contactPoint = collision.GetContact(0).point;
+
         // ground check
-        if (!hasJump && collision.collider.tag == "Ground" && collision.GetContact(0).point.y < transform.position.y)
+        if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y < transform.position.y)
         {
             hasJump = true;
         }
 
         // Trampoline checker
-        if (collision.collider.tag == "Trampoline" && collision.GetContact(0).point.y < transform.position.y)
+        if (collision.collider.tag == "Trampoline" && contactPoint.y < transform.position.y)
         {
             hasJump = true;
             Jump();
-        }
-        
-        if ( 
-            Mathf.Abs(transform.InverseTransformPoint(new Vector3(collision.GetContact(0).point.x, collision.GetContact(0).point.y, 0)).x) >
-            Mathf.Abs(transform.InverseTransformPoint(new Vector3(collision.GetContact(0).point.x, collision.GetContact(0).point.y, 0)).y))
-        {
-            Debug.Log("Collided on either left or right");
-        } else
-        {
-            Debug.Log("Collided on either top or bottom");
-        }
-    }
-
-    public void walljumpEnd()
-    {
-        if (walljumping)
-        {
-            Jump();
-            if (walljumpDir == "left")
-            {
-                rb.velocity += Vector2.left * walljumpHorizMultiplier;
-            }
-            else if (walljumpDir == "right")
-            {
-                rb.velocity += Vector2.right * walljumpHorizMultiplier;
-            }
-
-            walljumping = false;
-            canMove = true;
-        }
-    }
-
-    public void walljumpHandler()
-    {
-        if (walljumping)
-        {
-            canMove = false;
-            rb.gravityScale = walljumpGrav;
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
-        else
-        {
-            rb.gravityScale = normalGrav;
         }
     }
 }

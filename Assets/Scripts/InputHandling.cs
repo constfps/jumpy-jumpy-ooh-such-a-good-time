@@ -12,12 +12,10 @@ public class InputHandling : MonoBehaviour
     void Update()
     {
         movement.MoveDirection(Input.GetAxisRaw("Horizontal"));
-        movement.walljumpHandler();
 
         if (Input.GetButtonDown("Jump"))
         {
             movement.Jump();
-            movement.walljumpEnd();
         }
     }
 }
