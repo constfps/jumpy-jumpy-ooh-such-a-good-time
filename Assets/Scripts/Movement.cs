@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class Movement : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Movement : MonoBehaviour
     //wallsliding and jumping stuff
     public bool isWalled = false;
     public float wallslideSpeed = 2f;
+
+    public float launcherMultiplier = 800f;
 
     private void OnEnable()
     {
@@ -69,6 +72,7 @@ public class Movement : MonoBehaviour
         if (isWalled && collision.collider.tag == "Walljump")
         {
             isWalled = false;
+            hasJump = false;
         }
 
         if (collision.collider.tag == "Ground")
@@ -83,5 +87,10 @@ public class Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallslideSpeed, float.MaxValue));
         }
+    }
+
+    public void launch(Vector2 direction)
+    {
+        rb.AddForce(direction * launcherMultiplier);
     }
 }

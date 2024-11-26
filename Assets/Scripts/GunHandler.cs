@@ -7,7 +7,7 @@ public class GunHandler : MonoBehaviour
     private Movement movement;
 
     private Vector3 directionToPointer;
-    [SerializeField] public LayerMask excludedLayers;
+    [SerializeField] public LayerMask launcherLayer;
 
     void Start()
     {
@@ -47,7 +47,11 @@ public class GunHandler : MonoBehaviour
     public void Fire()
     {
         RaycastHit2D[] raycastHits = new RaycastHit2D[1];
-        player.GetComponent<Collider2D>().Raycast(directionToPointer, raycastHits, float.PositiveInfinity, excludedLayers.value);
-        Debug.Log(raycastHits[0].distance);
+        player.GetComponent<Collider2D>().Raycast(directionToPointer, raycastHits, float.PositiveInfinity, launcherLayer.value);
+        if (raycastHits[0].transform != null)
+        {
+            Debug.Log("Launcher detected");
+            player.GetComponent<Movement>().launch(-directionToPointer);
+        }
     }
 }
