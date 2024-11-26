@@ -4,6 +4,7 @@ public class InputHandling : MonoBehaviour
 {
     private Movement movement;
     private GunHandler gunHandler;
+    private float axisInput;
 
     private void Start()
     {
@@ -11,11 +12,9 @@ public class InputHandling : MonoBehaviour
         gunHandler = transform.parent.GetChild(1).GetComponent<GunHandler>();
     }
 
-    void Update()
+    private void Update()
     {
-        movement.MoveDirection(Input.GetAxisRaw("Horizontal"));
-        movement.wallslideHandler();
-
+        axisInput = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonDown("Jump"))
         {
             movement.Jump();
@@ -25,5 +24,11 @@ public class InputHandling : MonoBehaviour
         {
             gunHandler.Fire();
         }
+    }
+
+    void FixedUpdate()
+    {
+        movement.MoveDirection(axisInput);
+        movement.wallslideHandler();
     }
 }

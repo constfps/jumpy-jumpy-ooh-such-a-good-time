@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class Movement : MonoBehaviour
 {
@@ -10,12 +9,15 @@ public class Movement : MonoBehaviour
 
     public float jumpMultiplier = 5f;
     public float movementMultiplier = 5f;
+    public float maxSpeed = 3f;
 
     //wallsliding and jumping stuff
     public bool isWalled = false;
     public float wallslideSpeed = 2f;
 
+    public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
+    public bool velocityMode = true;
 
     private void OnEnable()
     {
@@ -38,11 +40,18 @@ public class Movement : MonoBehaviour
     {
         if (canMove)
         {
-            rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
+            if (velocityMode)
+            {
+                rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
+            }
+            else
+            {
+                rb.AddForce(Vector2.right * dir * movementMultiplier);
+            }
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         Vector2 contactPoint = collision.GetContact(0).normal;
 
@@ -50,6 +59,7 @@ public class Movement : MonoBehaviour
         if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y > 0f)
         {
             hasJump = true;
+            velocityMode = true;
         }
 
         // Trampoline checker
@@ -78,6 +88,7 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Ground")
         {
             hasJump = false;
+            velocityMode = false;
         }
     }
 
@@ -89,8 +100,8 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void launch(Vector2 direction)
+    public void launch(Vector2 dir)
     {
-        rb.AddForce(direction * launcherMultiplier);
+        rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
     }
 }
