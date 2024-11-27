@@ -9,9 +9,8 @@ public class Movement : MonoBehaviour
 
     public float jumpMultiplier = 5f;
     public float movementMultiplier = 5f;
-    public float maxSpeed = 3f;
+    public float maxSpeed = 8f;
 
-    //wallsliding and jumping stuff
     public bool isWalled = false;
     public float wallslideSpeed = 2f;
 
@@ -47,6 +46,7 @@ public class Movement : MonoBehaviour
             else
             {
                 rb.AddForce(Vector2.right * dir * movementMultiplier);
+                rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
             }
         }
     }
