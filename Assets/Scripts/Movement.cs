@@ -16,7 +16,6 @@ public class Movement : MonoBehaviour
 
     public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
-    public bool velocityMode = true;
 
     private void OnEnable()
     {
@@ -39,13 +38,15 @@ public class Movement : MonoBehaviour
     {
         if (canMove)
         {
-            if (velocityMode)
+            if (hasJump)
             {
                 rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
             }
             else
             {
-                rb.AddForce(Vector2.right * dir * movementMultiplier);
+                //i have absolutely no idea why multiplying this by 20 and having maxSpeed set to 3 caps the velocity to 5
+                //TODO: fix velocity.x getting stuck set to maxSpeed and replicate the snappy feeling like velocity mode
+                rb.AddForce(Vector2.right * dir * movementMultiplier * 20f);
                 rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
             }
         }
@@ -59,7 +60,6 @@ public class Movement : MonoBehaviour
         if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y > 0f)
         {
             hasJump = true;
-            velocityMode = true;
         }
 
         // Trampoline checker
@@ -88,7 +88,6 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Ground")
         {
             hasJump = false;
-            velocityMode = false;
         }
     }
 
