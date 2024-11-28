@@ -4,7 +4,7 @@ public class InputHandling : MonoBehaviour
 {
     private Movement movement;
     private GunHandler gunHandler;
-    private float axisInput;
+    public float axisInput;
 
     private void Start()
     {

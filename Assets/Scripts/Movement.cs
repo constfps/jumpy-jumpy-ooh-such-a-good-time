@@ -44,10 +44,16 @@ public class Movement : MonoBehaviour
             }
             else
             {
-                //i have absolutely no idea why multiplying this by 20 and having maxSpeed set to 3 caps the velocity to 5
-                //TODO: fix velocity.x getting stuck set to maxSpeed and replicate the snappy feeling like velocity mode
-                rb.AddForce(Vector2.right * dir * movementMultiplier * 20f);
-                rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed), rb.velocity.y);
+                rb.AddForce(Vector2.right * dir, ForceMode2D.Impulse);
+                if (Mathf.Abs(rb.velocity.x) > maxSpeed && dir != 0f)
+                {
+                    rb.velocity = new Vector2(maxSpeed * dir, rb.velocity.y);
+                }
+                if (Mathf.Abs(rb.velocity.x) > 0f && dir == 0f)
+                {
+                    rb.Sleep();
+                    rb.WakeUp();
+                }
             }
         }
     }
@@ -103,4 +109,5 @@ public class Movement : MonoBehaviour
     {
         rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
     }
+    
 }
