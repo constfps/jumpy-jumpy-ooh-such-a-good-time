@@ -16,7 +16,6 @@ public class Movement : MonoBehaviour
 
     public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
-    public bool launched = false;
 
     private void Start()
     {
@@ -27,7 +26,8 @@ public class Movement : MonoBehaviour
     {
         if (hasJump && !isWalled)
         {
-            rb.velocity = Vector2.up * jumpMultiplier;
+            rb.velocity = new Vector2(0f, jumpMultiplier);
+            hasJump = false;
         }
         else if (hasJump && isWalled)
         {
@@ -39,30 +39,11 @@ public class Movement : MonoBehaviour
     {
         if (canMove)
         {
-            if (hasJump)
-            {
-                rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
-            }
-            else
-            {
-                rb.AddForce(Vector2.right * dir, ForceMode2D.Impulse);
-                if (Mathf.Abs(rb.velocity.x) > maxSpeed && dir != 0f)
-                {
-                    rb.velocity = new Vector2(maxSpeed * dir, rb.velocity.y);
-                }
-                else if (dir == 0f)
-                {
-                    rb.velocity = new Vector2(0f, rb.velocity.y);
-                }
-            }
+            rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
         }
-        else if (launched)
+        else
         {
-            if (dir != 0f)
-            {
-                canMove = true;
-                launched = false;
-            }
+            rb.velocity = new Vector2(0f, rb.velocity.y);
         }
     }
 
@@ -74,7 +55,6 @@ public class Movement : MonoBehaviour
         if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y > 0f)
         {
             hasJump = true;
-            launched = false;
             canMove = true;
         }
 
@@ -82,7 +62,6 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Trampoline" && contactPoint.y > 0f)
         {
             hasJump = true;
-            launched = false;
             canMove = true;
             Jump();
         }
@@ -91,7 +70,6 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Walljump" && contactPoint.normalized.x != 0f)
         {
             isWalled = true;
-            launched = false;
             hasJump = true;
             canMove = true;
         }
@@ -108,6 +86,7 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Ground")
         {
             hasJump = false;
+            canMove = false;
         }
     }
 
@@ -124,8 +103,7 @@ public class Movement : MonoBehaviour
         if (!hasJump)
         {
             rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
-            canMove = false;
-            launched = true;
+            canMove = true;
         }
     }
 }
