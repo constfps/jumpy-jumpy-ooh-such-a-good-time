@@ -28,7 +28,7 @@ public class InputHandling : MonoBehaviour
 
     void FixedUpdate()
     {
-        movement.MoveDirection(axisInput);
+        movement.HorizontalMovement(axisInput);
         movement.wallslideHandler();
     }
 }

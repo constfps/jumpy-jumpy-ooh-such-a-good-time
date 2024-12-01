@@ -16,8 +16,9 @@ public class Movement : MonoBehaviour
 
     public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
+    public bool launched = false;
 
-    private void OnEnable()
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -34,7 +35,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void MoveDirection(float dir)
+    public void HorizontalMovement(float dir)
     {
         if (canMove)
         {
@@ -49,11 +50,18 @@ public class Movement : MonoBehaviour
                 {
                     rb.velocity = new Vector2(maxSpeed * dir, rb.velocity.y);
                 }
-                if (Mathf.Abs(rb.velocity.x) > 0f && dir == 0f)
+                else if (dir == 0f)
                 {
-                    rb.Sleep();
-                    rb.WakeUp();
+                    rb.velocity = new Vector2(0f, rb.velocity.y);
                 }
+            }
+        }
+        else if (launched)
+        {
+            if (dir != 0f)
+            {
+                canMove = true;
+                launched = false;
             }
         }
     }
@@ -66,12 +74,16 @@ public class Movement : MonoBehaviour
         if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y > 0f)
         {
             hasJump = true;
+            launched = false;
+            canMove = true;
         }
 
         // Trampoline checker
         if (collision.collider.tag == "Trampoline" && contactPoint.y > 0f)
         {
             hasJump = true;
+            launched = false;
+            canMove = true;
             Jump();
         }
 
@@ -79,7 +91,9 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Walljump" && contactPoint.normalized.x != 0f)
         {
             isWalled = true;
+            launched = false;
             hasJump = true;
+            canMove = true;
         }
     }
 
@@ -107,7 +121,11 @@ public class Movement : MonoBehaviour
 
     public void launch(Vector2 dir)
     {
-        rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
+        if (!hasJump)
+        {
+            rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
+            canMove = false;
+            launched = true;
+        }
     }
-    
 }

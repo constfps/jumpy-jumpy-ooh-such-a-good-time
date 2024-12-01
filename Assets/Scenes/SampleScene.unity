@@ -1871,10 +1871,11 @@ MonoBehaviour:
   canMove: 1
   jumpMultiplier: 15
   movementMultiplier: 5
-  maxSpeed: 3
+  maxSpeed: 5
   isWalled: 0
   wallslideSpeed: 2
-  launcherMultiplier: 150
+  launcherMultiplier: 50
+  launched: 0
 --- !u!114 &1271269410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1887,6 +1888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c20235c779a448942b08340e31c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  axisInput: 0
 --- !u!95 &1271269411
 Animator:
   serializedVersion: 4
