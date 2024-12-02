@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
 
     public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
+    public bool launched = false;
 
     private void Start()
     {
@@ -37,12 +38,13 @@ public class Movement : MonoBehaviour
 
     public void HorizontalMovement(float dir)
     {
-        if (canMove)
+        if (canMove && hasJump)
         {
             rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
         }
-        else
+        else if (!canMove || (hasJump && !launched))
         {
+            Debug.Log("Setting x to 0");
             rb.velocity = new Vector2(0f, rb.velocity.y);
         }
     }
@@ -56,6 +58,7 @@ public class Movement : MonoBehaviour
         {
             hasJump = true;
             canMove = true;
+            launched = false;
         }
 
         // Trampoline checker
@@ -63,6 +66,7 @@ public class Movement : MonoBehaviour
         {
             hasJump = true;
             canMove = true;
+            launched = false;
             Jump();
         }
 
@@ -70,6 +74,7 @@ public class Movement : MonoBehaviour
         if (collision.collider.tag == "Walljump" && contactPoint.normalized.x != 0f)
         {
             isWalled = true;
+            launched = false;
             hasJump = true;
             canMove = true;
         }
@@ -102,8 +107,9 @@ public class Movement : MonoBehaviour
     {
         if (!hasJump)
         {
-            rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
             canMove = true;
+            launched = true;
+            rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
         }
     }
 }
