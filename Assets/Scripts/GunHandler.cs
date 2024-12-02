@@ -48,7 +48,7 @@ public class GunHandler : MonoBehaviour
     {
         RaycastHit2D[] hit = new RaycastHit2D[1];
         player.GetComponent<Collider2D>().Raycast(directionToPointer, hit);
-        if (hit[0].transform.tag == "Launcher")
+        if (hit[0].transform.tag == "Ground")
         {
             Debug.Log("Launcher detected");
             movement.launch(directionToPointer.normalized);

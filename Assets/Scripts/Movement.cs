@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
 
     public RaycastHit2D hit;
     public float launcherMultiplier = 800f;
+    public bool canLaunch = false;
     public bool launched = false;
 
     private void Start()
@@ -58,6 +59,7 @@ public class Movement : MonoBehaviour
         {
             hasJump = true;
             canMove = true;
+            canLaunch = true;
             launched = false;
         }
 
@@ -67,6 +69,7 @@ public class Movement : MonoBehaviour
             hasJump = true;
             canMove = true;
             launched = false;
+            canLaunch = true;
             Jump();
         }
 
@@ -77,6 +80,7 @@ public class Movement : MonoBehaviour
             launched = false;
             hasJump = true;
             canMove = true;
+            canLaunch = true;
         }
     }
 
@@ -105,10 +109,11 @@ public class Movement : MonoBehaviour
 
     public void launch(Vector2 dir)
     {
-        if (!hasJump)
+        if (!hasJump && canLaunch)
         {
             canMove = true;
             launched = true;
+            canLaunch = false;
             rb.AddForce(-dir * launcherMultiplier, ForceMode2D.Impulse);
         }
     }
