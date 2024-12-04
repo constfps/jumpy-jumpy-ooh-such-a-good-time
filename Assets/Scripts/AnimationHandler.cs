@@ -31,7 +31,7 @@ public class AnimationHandler : MonoBehaviour
             animator.SetBool("falling", false);
         }
 
-        if (facingRight && Input.GetAxisRaw("Horizontal") < 0f || !facingRight && Input.GetAxisRaw("Horizontal") > 0f)
+        if ((facingRight && Input.GetAxisRaw("Horizontal") < 0f || !facingRight && Input.GetAxisRaw("Horizontal") > 0f) && movement.hasJump)
         {
             flip();
         }

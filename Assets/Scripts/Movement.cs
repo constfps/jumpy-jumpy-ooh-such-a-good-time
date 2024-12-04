@@ -43,44 +43,48 @@ public class Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(dir * movementMultiplier, rb.velocity.y);
         }
-        else if (!canMove || (hasJump && !launched))
+        else if (canMove && !hasJump)
         {
-            Debug.Log("Setting x to 0");
-            rb.velocity = new Vector2(0f, rb.velocity.y);
+            rb.velocity = rb.velocity;
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Vector2 contactPoint = collision.GetContact(0).normal;
+        ContactPoint2D[] contactPoint = new ContactPoint2D[collision.contactCount];
+        int count = collision.GetContacts(contactPoint);
 
-        // ground check
-        if (!hasJump && collision.collider.tag == "Ground" && contactPoint.y > 0f)
+        //go through every contact point
+        for (int i = 0; i < count; i++)
         {
-            hasJump = true;
-            canMove = true;
-            canLaunch = true;
-            launched = false;
-        }
+            // ground check
+            if (!hasJump && collision.collider.tag == "Ground" && contactPoint[i].normal.y > 0f)
+            {
+                hasJump = true;
+                canMove = true;
+                canLaunch = true;
+                launched = false;
+            }
 
-        // Trampoline checker
-        if (collision.collider.tag == "Trampoline" && contactPoint.y > 0f)
-        {
-            hasJump = true;
-            canMove = true;
-            launched = false;
-            canLaunch = true;
-            Jump();
-        }
+            // Trampoline checker
+            if (collision.collider.tag == "Trampoline" && contactPoint[i].normal.y > 0f)
+            {
+                hasJump = true;
+                canMove = true;
+                launched = false;
+                canLaunch = true;
+                Jump();
+            }
 
-        // walled checker
-        if (collision.collider.tag == "Walljump" && contactPoint.normalized.x != 0f)
-        {
-            isWalled = true;
-            launched = false;
-            hasJump = true;
-            canMove = true;
-            canLaunch = true;
+            // walled checker
+            if (collision.collider.tag == "Walljump" && contactPoint[i].normal.x != 0f)
+            {
+                isWalled = true;
+                launched = false;
+                hasJump = true;
+                canMove = true;
+                canLaunch = true;
+            }
         }
     }
 
