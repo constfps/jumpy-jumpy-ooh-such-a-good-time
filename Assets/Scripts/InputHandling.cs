@@ -9,7 +9,7 @@ public class InputHandling : MonoBehaviour
     private void Start()
     {
         movement = GetComponent<Movement>();
-        gunHandler = transform.parent.GetChild(1).GetComponent<GunHandler>();
+        gunHandler = GetComponentInChildren<GunHandler>();
     }
 
     private void Update()

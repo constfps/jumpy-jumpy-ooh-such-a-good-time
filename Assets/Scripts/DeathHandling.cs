@@ -6,7 +6,7 @@ public class DeathHandling : MonoBehaviour
     public Transform parent;
     public Movement movement;
     public Rigidbody2D rb;
-    public CapsuleCollider2D localCollider;
+    public Collider2D localCollider;
     public SpriteRenderer localRenderer;
 
     private void Start()
@@ -15,7 +15,7 @@ public class DeathHandling : MonoBehaviour
         parent = transform.parent;
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();
-        localCollider = GetComponent<CapsuleCollider2D>(); 
+        localCollider = GetComponent<Collider2D>(); 
         localRenderer = GetComponent<SpriteRenderer>();
     }
 

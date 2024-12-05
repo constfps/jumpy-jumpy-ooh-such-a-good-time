@@ -12,7 +12,7 @@ public class GunHandler : MonoBehaviour
     void Start()
     {
         cam = Camera.main; 
-        player = transform.parent.GetChild(0).transform;
+        player = transform.parent;
         movement = player.GetComponent<Movement>();
     }
 
@@ -32,6 +32,11 @@ public class GunHandler : MonoBehaviour
 
     public void Fire()
     {
-
+        RaycastHit2D hit = Physics2D.Raycast(player.position, directionToPointer, float.PositiveInfinity, launcherLayer);
+        if (hit.transform.tag == "Launcher")
+        {
+            Debug.Log("Launcher detected");
+            movement.launch(directionToPointer.normalized);
+        }
     }
 }
