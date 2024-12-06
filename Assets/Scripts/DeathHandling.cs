@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class DeathHandling : MonoBehaviour
 {
-    public Transform respawnPos;
-    public Transform parent;
-    public Movement movement;
-    public Rigidbody2D rb;
-    public Collider2D localCollider;
-    public SpriteRenderer localRenderer;
+    private Transform respawnPos;
+    private Movement movement;
+    private Rigidbody2D rb;
+    private Collider2D localCollider;
+    private SpriteRenderer localRenderer;
+    private ParticleSystem deathFX;
 
     private void Start()
     {
         respawnPos = GameObject.Find("Respawn Point").transform;
-        parent = transform.parent;
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();
         localCollider = GetComponent<Collider2D>(); 
         localRenderer = GetComponent<SpriteRenderer>();
+        deathFX = transform.FindChild("Death").GetComponent<ParticleSystem>();
     }
 
     private void Respawn()
@@ -34,6 +34,7 @@ public class DeathHandling : MonoBehaviour
         {
             movement.enabled = false;
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            deathFX.Play();
             localCollider.enabled = false;
             localRenderer.enabled = false;
             Invoke("Respawn", 1f);
