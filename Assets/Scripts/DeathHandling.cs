@@ -16,7 +16,7 @@ public class DeathHandling : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         localCollider = GetComponent<Collider2D>(); 
         localRenderer = GetComponent<SpriteRenderer>();
-        deathFX = transform.FindChild("Death").GetComponent<ParticleSystem>();
+        deathFX = transform.Find("Death").GetComponent<ParticleSystem>();
     }
 
     private void Respawn()

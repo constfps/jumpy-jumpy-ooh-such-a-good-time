@@ -21,14 +21,15 @@ public class AnimationHandler : MonoBehaviour
         {
             animator.SetBool("jumping", true);
         } 
-        else if (rb.velocity.y < 0f)
+        else if (rb.velocity.y < 0f && !movement.hasJump)
         {
             animator.SetBool("falling", true);
             animator.SetBool("jumping", false);
         }
-        else if (rb.velocity.y == 0f)
+        else if (movement.hasJump)
         {
             animator.SetBool("falling", false);
+            animator.SetBool("jumping", false);
         }
 
         if ((facingRight && Input.GetAxisRaw("Horizontal") < 0f || !facingRight && Input.GetAxisRaw("Horizontal") > 0f) && movement.hasJump)
