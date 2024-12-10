@@ -44,5 +44,8 @@ public class AnimationHandler : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1f;
         transform.localScale = scale;
+        scale = transform.GetChild(2).localScale;
+        scale.x *= -1f;
+        transform.GetChild(2).localScale= scale;
     }
 }
