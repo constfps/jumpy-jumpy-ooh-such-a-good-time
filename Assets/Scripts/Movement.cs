@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private ParticleHandler psHandler;
 
     public bool hasJump = false;
     public bool canMove = true;
@@ -22,6 +23,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        psHandler = GetComponent<ParticleHandler>();
     }
 
     public void Jump()

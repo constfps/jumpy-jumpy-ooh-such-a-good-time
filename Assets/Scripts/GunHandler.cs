@@ -5,8 +5,11 @@ public class GunHandler : MonoBehaviour
     private Camera cam;
     private Transform player;
     private Movement movement;
+    private LineRenderer lineRenderer;
+    private Vector3 tip;
 
     private Vector3 directionToPointer;
+    private Vector3 mousePos;
     [SerializeField] public LayerMask launcherLayer;
 
     void Start()
@@ -14,20 +17,23 @@ public class GunHandler : MonoBehaviour
         cam = Camera.main; 
         player = transform.parent;
         movement = player.GetComponent<Movement>();
+        lineRenderer = transform.parent.GetComponent<LineRenderer>();
     }
 
     void Update()
     {
-        // rotation logic
-        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         directionToPointer = mousePos - transform.position;
         float rotZ = Mathf.Atan2(directionToPointer.y, directionToPointer.x) * Mathf.Rad2Deg;
-
-        // set rotation
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
-
-        //stick gun to player
         transform.position = player.position;
+    }
+
+    void DrawLine(Vector3 hitPos)
+    {
+        tip = transform.parent.Find("gunTip").position;
+        lineRenderer.SetPosition(0, hitPos);
+        lineRenderer.SetPosition(1, tip);
     }
 
     public void Fire()
@@ -37,6 +43,7 @@ public class GunHandler : MonoBehaviour
         {
             Debug.Log("Launcher detected");
             movement.launch(directionToPointer.normalized);
+            DrawLine(hit.point);
         }
     }
 }
