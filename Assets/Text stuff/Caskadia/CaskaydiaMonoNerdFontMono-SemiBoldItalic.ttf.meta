@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: d7f93c62960c036459c1c827c213cc6b
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - CaskaydiaMono NFM
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 72ec55f92e671da418f4eaa8ace9444d, type: 3}
+  - {fileID: 12800000, guid: c016125f2ff18424696b7f5e5437e664, type: 3}
+  - {fileID: 12800000, guid: 43431b080abe08044b08c5d530a09d04, type: 3}
+  - {fileID: 12800000, guid: 248f8159705905742a02605e8994ea7c, type: 3}
+  - {fileID: 12800000, guid: 2769a1799aad1284985c0789a92328f2, type: 3}
+  - {fileID: 12800000, guid: 423436358070a7e4180f9f073ddd4b8e, type: 3}
+  - {fileID: 12800000, guid: 3234b591ba02aeb4688703aee2d340cf, type: 3}
+  - {fileID: 12800000, guid: b16dd3a2811f484428d15d6449997148, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

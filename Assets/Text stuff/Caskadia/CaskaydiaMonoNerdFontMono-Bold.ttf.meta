@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: b16dd3a2811f484428d15d6449997148
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - CaskaydiaMono NFM
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c016125f2ff18424696b7f5e5437e664, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
