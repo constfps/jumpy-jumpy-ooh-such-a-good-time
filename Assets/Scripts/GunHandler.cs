@@ -8,8 +8,11 @@ public class GunHandler : MonoBehaviour
     private LineRenderer lineRenderer;
     private Vector3 tip;
 
+    private Gradient gradient = new Gradient();
     private Vector3 directionToPointer;
     private Vector3 mousePos;
+    private float timeForFade = 0f;
+    public float fadeDuration = 0.5f;
     [SerializeField] public LayerMask launcherLayer;
 
     void Start()
@@ -27,6 +30,16 @@ public class GunHandler : MonoBehaviour
         float rotZ = Mathf.Atan2(directionToPointer.y, directionToPointer.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
         transform.position = player.position;
+        BeamFadeHandler();
+    }
+
+    void BeamFadeHandler()
+    {
+        GradientColorKey[] colors = { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) };
+        GradientAlphaKey[] alpha = { new GradientAlphaKey(Mathf.Lerp(1f, 0f, timeForFade / fadeDuration), 0f), new GradientAlphaKey(Mathf.Lerp(1f, 0f, timeForFade / fadeDuration), 1f)};
+        gradient.SetKeys(colors, alpha);
+        lineRenderer.colorGradient = gradient;
+        timeForFade += Time.deltaTime;
     }
 
     void DrawLine(Vector3 hitPos)
@@ -39,10 +52,11 @@ public class GunHandler : MonoBehaviour
     public void Fire()
     {
         RaycastHit2D hit = Physics2D.Raycast(player.position, directionToPointer, float.PositiveInfinity, launcherLayer);
-        if (hit.transform.tag == "Launcher")
+        if (hit.transform != null && hit.transform.tag == "Launcher")
         {
             Debug.Log("Launcher detected");
             movement.launch(directionToPointer.normalized);
+            timeForFade = 0f;
             DrawLine(hit.point);
         }
     }
