@@ -7,6 +7,7 @@ public class GunHandler : MonoBehaviour
     private Movement movement;
     private LineRenderer lineRenderer;
     private Vector3 tip;
+    private SfxManager sfxManager;
 
     private Gradient gradient = new Gradient();
     private Vector3 directionToPointer;
@@ -21,6 +22,7 @@ public class GunHandler : MonoBehaviour
         player = transform.parent;
         movement = player.GetComponent<Movement>();
         lineRenderer = transform.parent.GetComponent<LineRenderer>();
+        sfxManager = transform.parent.GetComponent<SfxManager>();
     }
 
     void Update()
@@ -58,6 +60,7 @@ public class GunHandler : MonoBehaviour
             movement.launch(directionToPointer.normalized);
             timeForFade = 0f;
             DrawLine(hit.point);
+            sfxManager.playFire();
         }
     }
 }

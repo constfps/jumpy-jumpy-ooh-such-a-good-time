@@ -4,6 +4,7 @@ public class Movement : MonoBehaviour
 {
     private Rigidbody2D rb;
     private ParticleHandler psHandler;
+    private SfxManager sfxManager;
 
     public bool hasJump = false;
     public bool canMove = true;
@@ -24,6 +25,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         psHandler = GetComponent<ParticleHandler>();
+        sfxManager = GetComponent<SfxManager>();
     }
 
     public void Jump()
@@ -32,10 +34,12 @@ public class Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(0f, jumpMultiplier);
             hasJump = false;
+            sfxManager.playJump();
         }
         else if (hasJump && isWalled)
         {
             rb.velocity = new Vector2(movementMultiplier * transform.localScale.x, jumpMultiplier);
+            sfxManager.playJump();
         }
     }
 
@@ -48,6 +52,14 @@ public class Movement : MonoBehaviour
         else if (canMove && !hasJump)
         {
             rb.velocity = rb.velocity;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Ground")
+        {
+            sfxManager.playLand();
         }
     }
 

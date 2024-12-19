@@ -8,6 +8,7 @@ public class DeathHandling : MonoBehaviour
     private Collider2D localCollider;
     private SpriteRenderer localRenderer;
     private ParticleSystem deathFX;
+    private SfxManager sfxManager;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class DeathHandling : MonoBehaviour
         localCollider = GetComponent<Collider2D>(); 
         localRenderer = GetComponent<SpriteRenderer>();
         deathFX = transform.Find("Death").GetComponent<ParticleSystem>();
+        sfxManager = GetComponent<SfxManager>();
     }
 
     private void Respawn()
@@ -32,6 +34,7 @@ public class DeathHandling : MonoBehaviour
     {
         if (collision.collider.tag == "Death")
         {
+            sfxManager.playDeath();
             movement.enabled = false;
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             deathFX.Play();
