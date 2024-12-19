@@ -4,7 +4,8 @@ public class InputHandling : MonoBehaviour
 {
     private Movement movement;
     private GunHandler gunHandler;
-    public float axisInput;
+    public float haxisInput;
+    public float vaxisInput;
 
     private void Start()
     {
@@ -14,7 +15,9 @@ public class InputHandling : MonoBehaviour
 
     private void Update()
     {
-        axisInput = Input.GetAxisRaw("Horizontal");
+        haxisInput = Input.GetAxisRaw("Horizontal");
+        vaxisInput = Input.GetAxisRaw("Vertical");
+
         if (Input.GetButtonDown("Jump"))
         {
             movement.Jump();
@@ -28,7 +31,8 @@ public class InputHandling : MonoBehaviour
 
     void FixedUpdate()
     {
-        movement.HorizontalMovement(axisInput);
+        movement.HorizontalMovement(haxisInput);
+        movement.VerticalMovement(vaxisInput);
         movement.wallslideHandler();
     }
 }

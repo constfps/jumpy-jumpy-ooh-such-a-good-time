@@ -21,6 +21,9 @@ public class Movement : MonoBehaviour
     public bool canLaunch = false;
     public bool launched = false;
 
+    public bool inLadder = false;
+    public bool climbing = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -55,11 +58,49 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void VerticalMovement(float dir)
+    {
+        if (inLadder && !climbing && dir > 0f)
+        {
+            climbing = true;
+        }
+
+        if (climbing)
+        {
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(0f, dir * movementMultiplier);
+        } else
+        {
+            rb.gravityScale = 3f;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ladder"))
+        {
+            inLadder = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ladder"))
+        {
+            inLadder = false;
+            climbing = false;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Ground")
+        ContactPoint2D[] contactPoint = new ContactPoint2D[collision.contactCount];
+        int count = collision.GetContacts(contactPoint);
+        for (int i = 0; i < count; i++)
         {
-            sfxManager.playLand();
+            if (collision.collider.CompareTag("Ground") && contactPoint[i].normal.y > 0f)
+            {
+                sfxManager.playLand();
+            }
         }
     }
 

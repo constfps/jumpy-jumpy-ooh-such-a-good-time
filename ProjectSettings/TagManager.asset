@@ -9,6 +9,7 @@ TagManager:
   - Walljump
   - Launcher
   - Death
+  - Ladder
   layers:
   - Default
   - TransparentFX
