@@ -7,11 +7,13 @@ public class SfxManager : MonoBehaviour
     public AudioClip fire;
     public AudioClip land;
 
-    private AudioSource source;
+    public AudioSource source;
+    public AudioSource music;
 
     private void Start()
     {
         source = GetComponent<AudioSource>();
+        music = transform.GetChild(4).GetComponent<AudioSource>();
     }
 
     public void playJump()

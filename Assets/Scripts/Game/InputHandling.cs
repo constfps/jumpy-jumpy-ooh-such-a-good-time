@@ -4,6 +4,8 @@ public class InputHandling : MonoBehaviour
 {
     private Movement movement;
     private GunHandler gunHandler;
+    private UIHandler uiHandler;
+
     public float haxisInput;
     public float vaxisInput;
 
@@ -11,6 +13,7 @@ public class InputHandling : MonoBehaviour
     {
         movement = GetComponent<Movement>();
         gunHandler = GetComponentInChildren<GunHandler>();
+        uiHandler = FindObjectOfType<UIHandler>();
     }
 
     private void Update()
@@ -26,6 +29,15 @@ public class InputHandling : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             gunHandler.Fire();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !uiHandler.paused)
+        {
+            uiHandler.Pause();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.paused)
+        {
+            uiHandler.Resume();
         }
     }
 
