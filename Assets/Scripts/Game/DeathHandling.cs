@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DeathHandling : MonoBehaviour
 {
-    private Transform respawnPos;
+    public Transform respawnPos;
     private Movement movement;
     private Rigidbody2D rb;
     private Collider2D localCollider;

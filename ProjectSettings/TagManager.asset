@@ -10,6 +10,9 @@ TagManager:
   - Launcher
   - Death
   - Ladder
+  - Checkpoint
+  - Walljump Tutorial
+  - Launch Tutorial
   layers:
   - Default
   - TransparentFX
