@@ -7,7 +7,7 @@ public class AnimationHandler : MonoBehaviour
     private Rigidbody2D rb;
     private bool facingRight = true;
 
-    private void OnEnable()
+    private void Start()
     {
         animator = GetComponent<Animator>();
         movement = GetComponent<Movement>();

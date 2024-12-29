@@ -11,21 +11,30 @@ public class UIHandler : MonoBehaviour
     private Slider musicVolume;
     private Slider sfxVolume;
     private Canvas canvas;
+    private Animator fade;
 
     private CamHandler camHandler;
+
     private InputHandling inputHandling;
+    private AnimationHandler animationHandler;
     private GunHandler gunHandler;
     private SfxManager sfxHandler;
+    private ParticleHandler particleHandler;
+    private Movement movement;
 
     public bool paused = false;
     public bool canPause = false;
+    public bool autoMute = true; //the music is a bit annoying during testing lmao
 
     private void Start()
     {
         canvas = FindObjectOfType<Canvas>();
+
+        //might break if hierarchy is changed
         mainMenu = canvas.transform.GetChild(1);
         pauseMenu = canvas.transform.GetChild(2);
         optionsMenu = canvas.transform.GetChild(3);
+        fade = canvas.transform.GetChild(4).GetComponent<Animator>();
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
@@ -33,21 +42,42 @@ public class UIHandler : MonoBehaviour
         camHandler = FindObjectOfType<CamHandler>();
         inputHandling = FindObjectOfType<InputHandling>();
         sfxHandler = FindObjectOfType<SfxManager>();
+        animationHandler = FindObjectOfType<AnimationHandler>();
         gunHandler = FindObjectOfType<GunHandler>();
+        movement = FindObjectOfType<Movement>();
+        particleHandler = FindObjectOfType<ParticleHandler>();
 
+        massDisable();
+
+        if (autoMute)
+        {
+            musicVolume.value = 0;
+        }
+    }
+
+    public void massDisable()
+    {
+        movement.enabled = false;
         inputHandling.enabled = false;
         gunHandler.enabled = false;
+        animationHandler.enabled = false;
+        particleHandler.enabled = false;
+    }
+
+    public void massEnable()
+    {
+        movement.enabled = true;
+        inputHandling.enabled = true;
+        animationHandler.enabled = true;
+        gunHandler.enabled = true;
+        particleHandler.enabled = true;
     }
     
     public void StartGame()
     {
-        inputHandling.enabled = true;
-        gunHandler.enabled = true;
         mainMenu.gameObject.SetActive(false);
         canvas.transform.GetChild(0).gameObject.SetActive(false);
-        canvas.gameObject.SetActive(false);
-        camHandler.SwitchCam();
-        canPause = true;
+        fade.SetTrigger("fade out");
     }
 
     public void Settings()
@@ -81,6 +111,7 @@ public class UIHandler : MonoBehaviour
     private void StupidShit()
     {
         Time.timeScale = 0f;
+        massDisable();
     }
 
     public void Pause()
@@ -88,9 +119,8 @@ public class UIHandler : MonoBehaviour
         if (canPause)
         {
             paused = true;
-            canvas.gameObject.SetActive(true);
             pauseMenu.gameObject.SetActive(true);
-            camHandler.SwitchCam();
+            camHandler.SwitchCam(0);
             Invoke("StupidShit", .25f);
         }
     }
@@ -101,8 +131,9 @@ public class UIHandler : MonoBehaviour
         {
             paused = false;
             Time.timeScale = 1f;
-            camHandler.SwitchCam();
-            canvas.gameObject.SetActive(false);
+            pauseMenu.gameObject.SetActive(false);
+            camHandler.SwitchCam(1);
+            massEnable();
         }
     }
 

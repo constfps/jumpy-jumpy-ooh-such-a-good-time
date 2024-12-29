@@ -19,7 +19,6 @@ public class ParticleHandler : MonoBehaviour
         {
             running = true;
             runningParticle.Play();
-            Debug.Log("Should be playing");
         }
         else if ((Input.GetAxisRaw("Horizontal") == 0f && running) || !movement.hasJump)
         {

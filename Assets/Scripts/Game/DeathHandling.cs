@@ -12,7 +12,6 @@ public class DeathHandling : MonoBehaviour
 
     private void Start()
     {
-        respawnPos = GameObject.Find("Respawn Point").transform;
         movement = GetComponent<Movement>();
         rb = GetComponent<Rigidbody2D>();
         localCollider = GetComponent<Collider2D>(); 
