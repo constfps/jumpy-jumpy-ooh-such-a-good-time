@@ -11,7 +11,9 @@ public class UIHandler : MonoBehaviour
     private Slider musicVolume;
     private Slider sfxVolume;
     private Canvas canvas;
-    private Animator fade;
+
+    public Animator fade;
+    public Transform bars;
 
     private CamHandler camHandler;
 
@@ -25,6 +27,7 @@ public class UIHandler : MonoBehaviour
     public bool paused = false;
     public bool canPause = false;
     public bool autoMute = true; //the music is a bit annoying during testing lmao
+    public GameObject arrows;
 
     private void Start()
     {
@@ -35,6 +38,7 @@ public class UIHandler : MonoBehaviour
         pauseMenu = canvas.transform.GetChild(2);
         optionsMenu = canvas.transform.GetChild(3);
         fade = canvas.transform.GetChild(4).GetComponent<Animator>();
+        bars = canvas.transform.GetChild(5);
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
@@ -46,6 +50,9 @@ public class UIHandler : MonoBehaviour
         gunHandler = FindObjectOfType<GunHandler>();
         movement = FindObjectOfType<Movement>();
         particleHandler = FindObjectOfType<ParticleHandler>();
+
+        arrows = GameObject.Find("arrows");
+        arrows.SetActive(false);
 
         massDisable();
 

@@ -6,6 +6,7 @@ public class SfxManager : MonoBehaviour
     public AudioClip death;
     public AudioClip fire;
     public AudioClip land;
+    public AudioClip checkpoint;
 
     public AudioSource source;
     public AudioSource music;
@@ -37,6 +38,12 @@ public class SfxManager : MonoBehaviour
     public void playLand()
     {
         source.clip = land;
+        source.Play();
+    }
+
+    public void playCheckpoint()
+    {
+        source.clip = checkpoint;
         source.Play();
     }
 }

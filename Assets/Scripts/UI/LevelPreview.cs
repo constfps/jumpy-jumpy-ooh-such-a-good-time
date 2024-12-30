@@ -17,18 +17,21 @@ public class LevelPreview : MonoBehaviour
     {
         camHandler.SwitchCam(2);
         fade.SetTrigger("fade in");
+        uiHandler.bars.gameObject.SetActive(true);
         Invoke("goToEnd", 1);
     }
 
     public void StartGame()
     {
         camHandler.SwitchCam(1);
+        uiHandler.bars.GetComponent<Animator>().enabled = true;
         uiHandler.canPause = true;
         uiHandler.massEnable();
     }
 
     public void goToEnd()
     {
+        uiHandler.arrows.SetActive(true);
         camHandler.SwitchCam(3);
         Invoke("StartGame", 3);
     }
