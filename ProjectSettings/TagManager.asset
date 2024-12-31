@@ -11,8 +11,7 @@ TagManager:
   - Death
   - Ladder
   - Checkpoint
-  - Walljump Tutorial
-  - Launch Tutorial
+  - Tutorial
   layers:
   - Default
   - TransparentFX

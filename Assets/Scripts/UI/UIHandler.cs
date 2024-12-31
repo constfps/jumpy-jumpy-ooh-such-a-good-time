@@ -3,10 +3,13 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    public Transform background;
+    private Transform title;
     private Transform mainMenu;
     private Transform pauseMenu;
     private Transform optionsMenu;
     private Transform lastMenu;
+    private Transform tutorial;
 
     private Slider musicVolume;
     private Slider sfxVolume;
@@ -17,32 +20,40 @@ public class UIHandler : MonoBehaviour
 
     private CamHandler camHandler;
 
-    private InputHandling inputHandling;
-    private AnimationHandler animationHandler;
-    private GunHandler gunHandler;
-    private SfxManager sfxHandler;
-    private ParticleHandler particleHandler;
-    private Movement movement;
+    private static InputHandling inputHandling;
+    private static AnimationHandler animationHandler;
+    private static GunHandler gunHandler;
+    private static SfxManager sfxHandler;
+    private static ParticleHandler particleHandler;
+    private static TriggerHandler triggerHandler;
+    private static Movement movement;
 
     public bool paused = false;
     public bool canPause = false;
+    public bool tutShown = false;
     public bool autoMute = true; //the music is a bit annoying during testing lmao
+    
     public GameObject arrows;
+    public GameObject tutorials;
 
     private void Start()
     {
         canvas = FindObjectOfType<Canvas>();
 
-        //might break if hierarchy is changed
-        mainMenu = canvas.transform.GetChild(1);
-        pauseMenu = canvas.transform.GetChild(2);
-        optionsMenu = canvas.transform.GetChild(3);
-        fade = canvas.transform.GetChild(4).GetComponent<Animator>();
-        bars = canvas.transform.GetChild(5);
+        //imports the entire UI hierarchy (check here first if shit breaks)
+        background = canvas.transform.GetChild(0);
+        title = canvas.transform.GetChild(1);
+        mainMenu = canvas.transform.GetChild(2);
+        pauseMenu = canvas.transform.GetChild(3);
+        optionsMenu = canvas.transform.GetChild(4);
+        fade = canvas.transform.GetChild(5).GetComponent<Animator>();
+        bars = canvas.transform.GetChild(6);
+        tutorial = canvas.transform.GetChild(7);
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
 
+        //import player components for mass enabling and disabling during cutscenes
         camHandler = FindObjectOfType<CamHandler>();
         inputHandling = FindObjectOfType<InputHandling>();
         sfxHandler = FindObjectOfType<SfxManager>();
@@ -50,9 +61,13 @@ public class UIHandler : MonoBehaviour
         gunHandler = FindObjectOfType<GunHandler>();
         movement = FindObjectOfType<Movement>();
         particleHandler = FindObjectOfType<ParticleHandler>();
+        triggerHandler = FindObjectOfType<TriggerHandler>();
 
         arrows = GameObject.Find("arrows");
+        tutorials = GameObject.Find("Tutorial Triggers");
+
         arrows.SetActive(false);
+        tutorials.SetActive(false);
 
         massDisable();
 
@@ -62,28 +77,62 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void massDisable()
+    public void changeTutImage(Sprite replacement)
+    {
+        if (!tutShown)
+        {
+            tutorial.GetChild(0).GetComponent<RawImage>().texture = replacement.texture;
+            tutorial.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, replacement.rect.size.x);
+            tutorial.GetChild(0).GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, replacement.rect.size.y);
+        }
+    }
+
+    public void tutExit()
+    {
+        if (tutShown)
+        {
+            tutorial.GetComponent<Animator>().SetTrigger("slide out");
+        }
+    }
+
+    public void tutEnter()
+    {
+        if (!tutShown)
+        {
+            tutorial.GetComponent<Animator>().SetTrigger("slide in");
+        }
+    }
+
+    public void toggleTutShown()
+    {
+        tutShown = !tutShown;
+    }
+
+    public static void massDisable()
     {
         movement.enabled = false;
         inputHandling.enabled = false;
         gunHandler.enabled = false;
         animationHandler.enabled = false;
         particleHandler.enabled = false;
+        triggerHandler.enabled = false;
     }
 
-    public void massEnable()
+    public static void massEnable()
     {
         movement.enabled = true;
         inputHandling.enabled = true;
         animationHandler.enabled = true;
         gunHandler.enabled = true;
         particleHandler.enabled = true;
+        triggerHandler.enabled = true;
     }
+
     
     public void StartGame()
     {
         mainMenu.gameObject.SetActive(false);
-        canvas.transform.GetChild(0).gameObject.SetActive(false);
+        title.gameObject.SetActive(false);
         fade.SetTrigger("fade out");
     }
 
@@ -115,7 +164,7 @@ public class UIHandler : MonoBehaviour
         optionsMenu.gameObject.SetActive(false);
     }
 
-    private void StupidShit()
+    private void AntiDesync()
     {
         Time.timeScale = 0f;
         massDisable();
@@ -127,8 +176,9 @@ public class UIHandler : MonoBehaviour
         {
             paused = true;
             pauseMenu.gameObject.SetActive(true);
+            background.GetComponent<Animator>().SetTrigger("turn on");
             camHandler.SwitchCam(0);
-            Invoke("StupidShit", .25f);
+            Invoke("AntiDesync", .25f);
         }
     }
 
@@ -139,6 +189,7 @@ public class UIHandler : MonoBehaviour
             paused = false;
             Time.timeScale = 1f;
             pauseMenu.gameObject.SetActive(false);
+            background.GetComponent<Animator>().SetTrigger("turn off");
             camHandler.SwitchCam(1);
             massEnable();
         }

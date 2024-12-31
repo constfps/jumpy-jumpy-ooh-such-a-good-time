@@ -56,7 +56,6 @@ public class GunHandler : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(player.position, directionToPointer, float.PositiveInfinity, launcherLayer);
         if (hit.transform != null && hit.transform.tag == "Launcher")
         {
-            Debug.Log("Launcher detected");
             movement.launch(directionToPointer.normalized);
             timeForFade = 0f;
             DrawLine(hit.point);

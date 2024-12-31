@@ -2,24 +2,15 @@ using UnityEngine;
 
 public class TriggerHandler : MonoBehaviour
 {
-    private bool inLaunchTut;
-    private bool inWallTut;
-
     private DeathHandling deathHandler;
     private SfxManager sfxManager;
+    private UIHandler uiHandler;
 
     private void Start()
     {
         deathHandler = GetComponent<DeathHandling>();
         sfxManager = GetComponent<SfxManager>();
-    }
-
-    private void Update()
-    {
-        if (inLaunchTut || inWallTut)
-        {
-            Time.timeScale = 0.5f;
-        }
+        uiHandler = FindObjectOfType<UIHandler>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,15 +20,23 @@ public class TriggerHandler : MonoBehaviour
             deathHandler.respawnPos = collision.transform.GetChild(0);
             sfxManager.playCheckpoint();
         }
+    }
 
-        if (collision.CompareTag("Launch Tutorial"))
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Tutorial"))
         {
-            inLaunchTut = true;
+            Debug.Log("Tutorial triggered");
+            uiHandler.changeTutImage(collision.transform.GetComponent<SpriteRenderer>().sprite);
+            uiHandler.tutEnter();
         }
+    }
 
-        if (collision.CompareTag("Walljump Tutorial"))
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Tutorial"))
         {
-            inWallTut = true;
+            uiHandler.tutExit();
         }
     }
 }

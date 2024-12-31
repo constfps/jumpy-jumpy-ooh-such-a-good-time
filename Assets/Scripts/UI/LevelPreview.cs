@@ -13,6 +13,11 @@ public class LevelPreview : MonoBehaviour
         uiHandler = FindObjectOfType<UIHandler>();
     }
 
+    public void enableTutorials()
+    {
+        uiHandler.tutorials.SetActive(true);
+    }
+
     public void StartPreview()
     {
         camHandler.SwitchCam(2);
@@ -26,7 +31,8 @@ public class LevelPreview : MonoBehaviour
         camHandler.SwitchCam(1);
         uiHandler.bars.GetComponent<Animator>().enabled = true;
         uiHandler.canPause = true;
-        uiHandler.massEnable();
+        UIHandler.massEnable();
+        Invoke("enableTutorials", 1);
     }
 
     public void goToEnd()

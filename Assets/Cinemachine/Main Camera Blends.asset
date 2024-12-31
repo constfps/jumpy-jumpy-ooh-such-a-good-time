@@ -49,7 +49,7 @@ MonoBehaviour:
   - m_From: End
     m_To: Start
     m_Blend:
-      m_Style: 6
+      m_Style: 2
       m_Time: 2
       m_CustomCurve:
         serializedVersion: 2

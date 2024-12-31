@@ -10,6 +10,7 @@ public class SfxManager : MonoBehaviour
 
     public AudioSource source;
     public AudioSource music;
+    public AudioSource checkpointS;
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class SfxManager : MonoBehaviour
 
     public void playCheckpoint()
     {
-        source.clip = checkpoint;
-        source.Play();
+        checkpointS.clip = checkpoint;
+        checkpointS.Play();
     }
 }
