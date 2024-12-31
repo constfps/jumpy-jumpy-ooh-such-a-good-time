@@ -13,6 +13,7 @@ public class UIHandler : MonoBehaviour
 
     private Slider musicVolume;
     private Slider sfxVolume;
+    private Toggle tutToggle;
     private Canvas canvas;
 
     public Animator fade;
@@ -32,6 +33,9 @@ public class UIHandler : MonoBehaviour
     public bool canPause = false;
     public bool tutShown = false;
     public bool autoMute = true; //the music is a bit annoying during testing lmao
+
+    public static bool tutEnabled;
+    public bool inSettings;
     
     public GameObject arrows;
     public GameObject tutorials;
@@ -52,6 +56,7 @@ public class UIHandler : MonoBehaviour
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
+        tutToggle = optionsMenu.GetChild(2).GetChild(0).GetComponent<Toggle>();
 
         //import player components for mass enabling and disabling during cutscenes
         camHandler = FindObjectOfType<CamHandler>();
@@ -89,7 +94,7 @@ public class UIHandler : MonoBehaviour
 
     public void tutExit()
     {
-        if (tutShown)
+        if (tutShown || !tutEnabled)
         {
             tutorial.GetComponent<Animator>().SetTrigger("slide out");
         }
@@ -97,9 +102,17 @@ public class UIHandler : MonoBehaviour
 
     public void tutEnter()
     {
-        if (!tutShown)
+        if (!tutShown && tutEnabled)
         {
             tutorial.GetComponent<Animator>().SetTrigger("slide in");
+        }
+    }
+
+    public void midTutDisableFix()
+    {
+        if (tutShown && !tutToggle.isOn)
+        {
+            tutExit();
         }
     }
 
@@ -149,6 +162,7 @@ public class UIHandler : MonoBehaviour
         mainMenu.gameObject.SetActive(false);
         pauseMenu.gameObject.SetActive(false);
         optionsMenu.gameObject.SetActive(true);
+        inSettings = true;
     }
 
     public void Backshots()
@@ -162,6 +176,7 @@ public class UIHandler : MonoBehaviour
             mainMenu.gameObject.SetActive(true);
         }
         optionsMenu.gameObject.SetActive(false);
+        inSettings = false;
     }
 
     private void AntiDesync()
@@ -199,5 +214,6 @@ public class UIHandler : MonoBehaviour
     {
         sfxHandler.source.volume = sfxVolume.value;
         sfxHandler.music.volume = musicVolume.value;
+        tutEnabled = tutToggle.isOn;
     }
 }

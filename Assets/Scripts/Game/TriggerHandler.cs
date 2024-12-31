@@ -34,7 +34,7 @@ public class TriggerHandler : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Tutorial"))
+        if (collision.transform.CompareTag("Tutorial") && UIHandler.tutEnabled)
         {
             uiHandler.tutExit();
         }

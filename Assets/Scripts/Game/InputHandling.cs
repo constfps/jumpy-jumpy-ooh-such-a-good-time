@@ -35,9 +35,10 @@ public class InputHandling : MonoBehaviour
         {
             uiHandler.Pause();
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.paused)
+
+        if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.inSettings)
         {
-            uiHandler.Resume();
+            uiHandler.Backshots();
         }
     }
 
