@@ -252,6 +252,7 @@ public class UIHandler : MonoBehaviour
         Time.timeScale = 1f;
         paused = false;
         canPause = false;
+        triggerHandler.transform.GetComponent<DeathHandling>().respawnPos = GetComponent<Reset>().origin;
         massDisable();
         fade.SetTrigger("fade out");
     }
