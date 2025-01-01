@@ -38,6 +38,13 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        animator.SetBool("jumping", false);
+        animator.SetBool("falling", false);
+        animator.SetFloat("speed", 0f);
+    }
+
     public void flip()
     {
         facingRight = !facingRight;

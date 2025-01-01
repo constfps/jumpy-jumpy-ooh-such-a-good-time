@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
     public Transform background;
-    private Transform title;
-    private Transform mainMenu;
-    private Transform pauseMenu;
-    private Transform optionsMenu;
-    private Transform lastMenu;
-    private Transform tutorial;
+    public Transform title;
+    public Transform mainMenu;
+    public Transform pauseMenu;
+    public Transform optionsMenu;
+    public Transform lastMenu;
+    public Transform tutorial;
     public Transform stopwatch;
 
     private Slider musicVolume;
@@ -41,6 +42,7 @@ public class UIHandler : MonoBehaviour
     
     public GameObject arrows;
     public GameObject tutorials;
+    public Sprite idleSprite;
 
     private void Start()
     {
@@ -149,12 +151,15 @@ public class UIHandler : MonoBehaviour
     {
         mainMenu.gameObject.SetActive(false);
         title.gameObject.SetActive(false);
+        tutorial.gameObject.SetActive(true);
+
         if (skipPreview)
         {
             canvas.transform.GetChild(5).GetComponent<LevelPreview>().StartGame();
         }
         else
         {
+            fade.GetComponent<LevelPreview>().allowed = true;
             fade.SetTrigger("fade out");
         }
     }
@@ -218,6 +223,17 @@ public class UIHandler : MonoBehaviour
             camHandler.SwitchCam(1);
             massEnable();
         }
+    }
+
+    public void MainMenu()
+    {
+        fade.GetComponent<LevelPreview>().allowed = false;
+        Time.timeScale = 1f;
+        paused = false;
+        canPause = false;
+        massDisable();
+        triggerHandler.gameObject.GetComponent<SpriteRenderer>().sprite = idleSprite;
+        fade.SetTrigger("fade out");
     }
 
     private void Update()
