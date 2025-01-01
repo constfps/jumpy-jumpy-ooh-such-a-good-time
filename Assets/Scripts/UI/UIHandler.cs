@@ -18,6 +18,7 @@ public class UIHandler : MonoBehaviour
     private Slider musicVolume;
     private Slider sfxVolume;
     private Toggle tutToggle;
+    private Toggle previewToggle;
     private Canvas canvas;
 
     public Animator fade;
@@ -40,7 +41,7 @@ public class UIHandler : MonoBehaviour
 
     public static bool tutEnabled;
     public bool inSettings;
-    public bool skipPreview = true; //for testing
+    public bool skipPreview = true; //used to be exclusive to testing but made it an actual setting
     
     public GameObject arrows;
     public GameObject tutorials;
@@ -65,6 +66,7 @@ public class UIHandler : MonoBehaviour
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
         tutToggle = optionsMenu.GetChild(2).GetChild(0).GetComponent<Toggle>();
+        previewToggle = optionsMenu.GetChild(3).GetChild(0).GetComponent<Toggle>();
 
         //import player components for mass enabling and disabling during cutscenes
         camHandler = FindObjectOfType<CamHandler>();
@@ -275,5 +277,6 @@ public class UIHandler : MonoBehaviour
         sfxHandler.source.volume = sfxVolume.value;
         sfxHandler.music.volume = musicVolume.value;
         tutEnabled = tutToggle.isOn;
+        skipPreview = previewToggle.isOn;
     }
 }
