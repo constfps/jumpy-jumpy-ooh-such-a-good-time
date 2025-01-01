@@ -9,4 +9,9 @@ public class Reset : MonoBehaviour
     {
         player.position = origin.position;
     }
+
+    public void ResetPlayer(Transform pos)
+    {
+        player.position = pos.position;
+    }
 }

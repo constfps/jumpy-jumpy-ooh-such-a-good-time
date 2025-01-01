@@ -6,7 +6,7 @@ public class LevelPreview : MonoBehaviour
     private Animator fade;
     private UIHandler uiHandler;
 
-    public bool allowed = false;
+    public int allowed = 0;
 
     private void Start()
     {
@@ -22,14 +22,14 @@ public class LevelPreview : MonoBehaviour
 
     public void StartPreview()
     {
-        if (allowed)
+        if (allowed == 0)
         {
             camHandler.SwitchCam(2);
             fade.SetTrigger("fade in");
             uiHandler.bars.gameObject.SetActive(true);
             Invoke("goToEnd", 1);
         }
-        else
+        else if (allowed == 1)
         {
             uiHandler.transform.GetComponent<Reset>().ResetPlayer();
             uiHandler.title.gameObject.SetActive(true);
@@ -38,9 +38,22 @@ public class LevelPreview : MonoBehaviour
             uiHandler.bars.gameObject.SetActive(false);
             uiHandler.stopwatch.gameObject.SetActive(false);
             uiHandler.tutorial.gameObject.SetActive(false);
+            uiHandler.endScreen.gameObject.SetActive(false);
             uiHandler.background.GetComponent<Animator>().SetTrigger("turn off");
             uiHandler.fade.SetTrigger("fade in");
             Stopwatch.reset();
+        }
+        else if (allowed == 2)
+        {
+            camHandler.SwitchCam(0);
+            uiHandler.transform.GetComponent<Reset>().ResetPlayer(uiHandler.endPos);
+            UIHandler.massDisable();
+            int[] temp = { 5, 9 };
+            uiHandler.UIMassDisable(temp);
+            Stopwatch.updateBestTime();
+            uiHandler.UpdateEndScreenText();
+            uiHandler.endScreen.gameObject.SetActive(true);
+            uiHandler.fade.SetTrigger("fade in");
         }
     }
 

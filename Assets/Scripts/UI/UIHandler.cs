@@ -1,6 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
+using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIHandler : MonoBehaviour
     public Transform lastMenu;
     public Transform tutorial;
     public Transform stopwatch;
+    public Transform endScreen;
 
     private Slider musicVolume;
     private Slider sfxVolume;
@@ -42,7 +44,7 @@ public class UIHandler : MonoBehaviour
     
     public GameObject arrows;
     public GameObject tutorials;
-    public Sprite idleSprite;
+    public Transform endPos;
 
     private void Start()
     {
@@ -54,10 +56,11 @@ public class UIHandler : MonoBehaviour
         mainMenu = canvas.transform.GetChild(2);
         pauseMenu = canvas.transform.GetChild(3);
         optionsMenu = canvas.transform.GetChild(4);
-        fade = canvas.transform.GetChild(5).GetComponent<Animator>();
-        bars = canvas.transform.GetChild(6);
-        tutorial = canvas.transform.GetChild(7);
-        stopwatch = canvas.transform.GetChild(8);
+        bars = canvas.transform.GetChild(5);
+        tutorial = canvas.transform.GetChild(6);
+        stopwatch = canvas.transform.GetChild(7);
+        endScreen = canvas.transform.GetChild(8);
+        fade = canvas.transform.GetChild(9).GetComponent<Animator>();
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
@@ -146,6 +149,20 @@ public class UIHandler : MonoBehaviour
         triggerHandler.enabled = true;
     }
 
+    public void UIMassDisable(int[] exceptions)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (!exceptions.Contains(i)) canvas.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+    public void UIMassDisable(int exception)
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (exception != i) canvas.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
     
     public void StartGame()
     {
@@ -155,11 +172,11 @@ public class UIHandler : MonoBehaviour
 
         if (skipPreview)
         {
-            canvas.transform.GetChild(5).GetComponent<LevelPreview>().StartGame();
+            canvas.transform.GetChild(9).GetComponent<LevelPreview>().StartGame();
         }
         else
         {
-            fade.GetComponent<LevelPreview>().allowed = true;
+            fade.GetComponent<LevelPreview>().allowed = 0;
             fade.SetTrigger("fade out");
         }
     }
@@ -207,6 +224,7 @@ public class UIHandler : MonoBehaviour
             paused = true;
             pauseMenu.gameObject.SetActive(true);
             background.GetComponent<Animator>().SetTrigger("turn on");
+            Stopwatch.stopStopwatch();
             camHandler.SwitchCam(0);
             Invoke("AntiDesync", .25f);
         }
@@ -216,6 +234,7 @@ public class UIHandler : MonoBehaviour
     {
         if (paused)
         {
+            Stopwatch.startStopwatch();
             paused = false;
             Time.timeScale = 1f;
             pauseMenu.gameObject.SetActive(false);
@@ -227,13 +246,28 @@ public class UIHandler : MonoBehaviour
 
     public void MainMenu()
     {
-        fade.GetComponent<LevelPreview>().allowed = false;
+        fade.GetComponent<LevelPreview>().allowed = 1;
         Time.timeScale = 1f;
         paused = false;
         canPause = false;
         massDisable();
-        triggerHandler.gameObject.GetComponent<SpriteRenderer>().sprite = idleSprite;
         fade.SetTrigger("fade out");
+    }
+
+    public void EndScreen()
+    {
+        fade.GetComponent<LevelPreview>().allowed = 2;
+        fade.SetTrigger("fade out");
+        paused = false;
+        canPause = false;
+    }
+
+    public void UpdateEndScreenText()
+    {
+        TMP_Text finalTimeText = endScreen.GetChild(0).GetComponent<TMP_Text>();
+        TMP_Text bestTimeText = endScreen.GetChild(1).GetComponent<TMP_Text>();
+        finalTimeText.text = "Final Time: " + Stopwatch.finalTime.ToString(@"mm\:ss\:fff");
+        bestTimeText.text = "Best Time: " + Stopwatch.bestTime.ToString(@"mm\:ss\:fff");
     }
 
     private void Update()

@@ -24,6 +24,7 @@ public class TriggerHandler : MonoBehaviour
         if (collision.transform.CompareTag("End"))
         {
             Stopwatch.stopStopwatch();
+            uiHandler.EndScreen();
         }
     }
 

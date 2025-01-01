@@ -6,6 +6,8 @@ public class Stopwatch : MonoBehaviour
 {
     public static bool isGoing = false;
     private static float currentTime;
+    public static TimeSpan bestTime;
+    public static TimeSpan finalTime;
     public Transform textTransform;
     private TMP_Text text;
 
@@ -20,33 +22,8 @@ public class Stopwatch : MonoBehaviour
         if (isGoing)
         {
             currentTime += Time.deltaTime;
-            text.text = "";
             TimeSpan time = TimeSpan.FromSeconds(currentTime);
-
-            if (time.Minutes < 10)
-            {
-                text.text += "0";
-            }
-
-            text.text += time.Minutes.ToString();
-            text.text += ":";
-
-            if (time.Seconds < 10)
-            {
-                text.text += "0";
-            }
-            text.text += time.Seconds.ToString();
-            text.text += ":";
-
-            if (time.Milliseconds < 10)
-            {
-                text.text += "00";
-            }
-            else if (time.Milliseconds < 100)
-            {
-                text.text += "0";
-            }
-            text.text += time.Milliseconds.ToString();
+            text.text = time.ToString(@"mm\:ss\:fff");
         }
     }
 
@@ -63,5 +40,17 @@ public class Stopwatch : MonoBehaviour
     public static void stopStopwatch()
     {
         isGoing = false;
+    }
+
+    public static void updateBestTime()
+    {
+        finalTime = TimeSpan.FromSeconds(currentTime);
+        if (TimeSpan.Compare(finalTime, bestTime) == -1)
+        {
+            bestTime = finalTime;
+        } else if (bestTime == TimeSpan.Zero)
+        {
+            bestTime = finalTime;
+        }
     }
 }
