@@ -10,6 +10,7 @@ public class UIHandler : MonoBehaviour
     private Transform optionsMenu;
     private Transform lastMenu;
     private Transform tutorial;
+    public Transform stopwatch;
 
     private Slider musicVolume;
     private Slider sfxVolume;
@@ -54,6 +55,7 @@ public class UIHandler : MonoBehaviour
         fade = canvas.transform.GetChild(5).GetComponent<Animator>();
         bars = canvas.transform.GetChild(6);
         tutorial = canvas.transform.GetChild(7);
+        stopwatch = canvas.transform.GetChild(8);
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();

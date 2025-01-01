@@ -20,6 +20,11 @@ public class TriggerHandler : MonoBehaviour
             deathHandler.respawnPos = collision.transform.GetChild(0);
             sfxManager.playCheckpoint();
         }
+
+        if (collision.transform.CompareTag("End"))
+        {
+            Stopwatch.stopStopwatch();
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

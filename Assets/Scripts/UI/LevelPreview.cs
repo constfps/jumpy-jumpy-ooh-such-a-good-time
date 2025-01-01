@@ -32,7 +32,9 @@ public class LevelPreview : MonoBehaviour
         uiHandler.bars.GetComponent<Animator>().enabled = true;
         uiHandler.canPause = true;
         UIHandler.massEnable();
-        Invoke("enableTutorials", 1);
+        uiHandler.stopwatch.gameObject.SetActive(true);
+        Stopwatch.startStopwatch();
+        Invoke("enableTutorials", 0.5f);
     }
 
     public void goToEnd()
