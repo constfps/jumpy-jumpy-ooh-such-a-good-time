@@ -36,6 +36,7 @@ public class UIHandler : MonoBehaviour
 
     public static bool tutEnabled;
     public bool inSettings;
+    public bool skipPreview = true; //for testing
     
     public GameObject arrows;
     public GameObject tutorials;
@@ -146,7 +147,14 @@ public class UIHandler : MonoBehaviour
     {
         mainMenu.gameObject.SetActive(false);
         title.gameObject.SetActive(false);
-        fade.SetTrigger("fade out");
+        if (skipPreview)
+        {
+            canvas.transform.GetChild(5).GetComponent<LevelPreview>().StartGame();
+        }
+        else
+        {
+            fade.SetTrigger("fade out");
+        }
     }
 
     public void Settings()
