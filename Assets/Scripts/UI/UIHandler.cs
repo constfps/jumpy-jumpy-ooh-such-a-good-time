@@ -14,6 +14,7 @@ public class UIHandler : MonoBehaviour
     public Transform tutorial;
     public Transform stopwatch;
     public Transform endScreen;
+    public Transform credits;
 
     private Slider musicVolume;
     private Slider sfxVolume;
@@ -62,6 +63,7 @@ public class UIHandler : MonoBehaviour
         stopwatch = canvas.transform.GetChild(7);
         endScreen = canvas.transform.GetChild(8);
         fade = canvas.transform.GetChild(9).GetComponent<Animator>();
+        credits = canvas.transform.GetChild(10);
 
         musicVolume = optionsMenu.GetChild(0).GetChild(0).GetComponent<Slider>();
         sfxVolume = optionsMenu.GetChild(1).GetChild(0).GetComponent<Slider>();
@@ -164,6 +166,20 @@ public class UIHandler : MonoBehaviour
         {
             if (exception != i) canvas.transform.GetChild(i).gameObject.SetActive(false);
         }
+    }
+
+    public void QuickMainMenu()
+    {
+        credits.gameObject.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
+        title.gameObject.SetActive(true);
+    }
+
+    public void Credits()
+    {
+        credits.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
+        title.gameObject.SetActive(false);
     }
     
     public void StartGame()
