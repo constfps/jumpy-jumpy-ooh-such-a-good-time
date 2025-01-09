@@ -258,6 +258,7 @@ public class UIHandler : MonoBehaviour
             pauseMenu.gameObject.SetActive(false);
             background.GetComponent<Animator>().SetTrigger("turn off");
             camHandler.SwitchCam(1);
+            CancelInvoke("AntiDesync");
             massEnable();
         }
     }

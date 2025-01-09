@@ -31,12 +31,12 @@ public class InputHandling : MonoBehaviour
             gunHandler.Fire();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !uiHandler.paused)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)) && !uiHandler.paused)
         {
             uiHandler.Pause();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.inSettings)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)) && uiHandler.inSettings)
         {
             uiHandler.Backshots();
         }

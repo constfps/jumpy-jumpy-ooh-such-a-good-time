@@ -11,14 +11,14 @@ public class UIInputHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.inSettings)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)) && !uiHandler.paused)
         {
-            uiHandler.Backshots();
+            uiHandler.Pause();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && uiHandler.paused)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)) && uiHandler.inSettings)
         {
-            uiHandler.Resume();
+            uiHandler.Backshots();
         }
     }
 }

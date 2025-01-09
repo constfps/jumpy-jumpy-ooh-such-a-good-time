@@ -26,7 +26,7 @@ public class LevelPreview : MonoBehaviour
         {
             camHandler.SwitchCam(2);
             fade.SetTrigger("fade in");
-            uiHandler.bars.gameObject.SetActive(true);
+            uiHandler.bars.GetComponent<Animator>().SetTrigger("enable");
             Invoke("goToEnd", 1);
         }
         else if (allowed == 1)
@@ -35,7 +35,7 @@ public class LevelPreview : MonoBehaviour
             uiHandler.title.gameObject.SetActive(true);
             uiHandler.mainMenu.gameObject.SetActive(true);
             uiHandler.pauseMenu.gameObject.SetActive(false);
-            uiHandler.bars.gameObject.SetActive(false);
+            uiHandler.bars.GetComponent<Animator>().SetTrigger("disable");
             uiHandler.stopwatch.gameObject.SetActive(false);
             uiHandler.tutorial.gameObject.SetActive(false);
             uiHandler.endScreen.gameObject.SetActive(false);
@@ -60,7 +60,7 @@ public class LevelPreview : MonoBehaviour
     public void StartGame()
     {
         camHandler.SwitchCam(1);
-        uiHandler.bars.GetComponent<Animator>().enabled = true;
+        uiHandler.bars.GetComponent<Animator>().SetTrigger("disable");
         uiHandler.canPause = true;
         UIHandler.massEnable();
         uiHandler.stopwatch.gameObject.SetActive(true);
