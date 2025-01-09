@@ -38,7 +38,6 @@ public class UIHandler : MonoBehaviour
     public bool paused = false;
     public bool canPause = false;
     public bool tutShown = false;
-    public bool autoMute = true; //the music is a bit annoying during testing lmao
 
     public static bool tutEnabled;
     public bool inSettings;
@@ -87,11 +86,6 @@ public class UIHandler : MonoBehaviour
         tutorials.SetActive(false);
 
         massDisable();
-
-        if (autoMute)
-        {
-            musicVolume.value = 0;
-        }
     }
 
     public void changeTutImage(Sprite replacement)
